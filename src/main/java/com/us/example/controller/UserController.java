@@ -1,8 +1,6 @@
 package com.us.example.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-
+import com.us.example.model.bean.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.us.example.service.UserService;
-import com.us.example.util.CommonUtil;
+
+import java.util.Date;
 
 /**
  * @author Administrator
  */
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/user")
 public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
 
@@ -28,24 +27,52 @@ public class UserController {
     private UserService userService;
 
 
-    /***
-     * @param request
+    /**
+     * 查询全部
      * @return
      */
-    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<Object> listUsers(HttpServletRequest request) {
+    public ResponseEntity<Object> listUsers() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
-    /***
-     * @param request
+    /**
+     * 根据ID查询
      * @return
      */
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/info", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<Object> getUserInfo(HttpServletRequest request,@RequestParam() Integer id) {
-        return new ResponseEntity<>(userService.getInfo(id), HttpStatus.OK);
+    public ResponseEntity<Object> getUserInfo(@RequestParam() Integer id) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    }
+
+    /**
+     * 更新
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<Object> updateUserInfo(@RequestParam() Integer id, @RequestParam() String name) {
+        User user = new User();
+        user.setUserId(id);
+        user.setName(name);
+        user.setCreateTime(new Date());
+        userService.updateUser(user);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+    /**
+     * 插入
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<Object> insertUser(@RequestParam() String name) {
+        User user = new User();
+        user.setName(name);
+        user.setCreateTime(new Date());
+        userService.insertUser(user);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
 

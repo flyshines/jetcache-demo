@@ -8,11 +8,11 @@
     </appender>
 
 
-    <logger name="com.us.example" level="DEBUG">
+    <logger name="com.us.example" additivity="false" level="DEBUG">
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <root level="warn">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </root>
 

@@ -1,14 +1,14 @@
 package com.us.example.service.impl;
 
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.us.example.model.bean.User;
-import com.us.example.model.dto.UserDTO;
-import com.us.example.model.vo.UserVO;
 import com.us.example.mapper.UserDao;
 import com.us.example.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author Administrator
@@ -20,22 +20,27 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public UserVO getAll() {
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(userDao.selectAll(), userVO);
-        return userVO;
+    public List<User> getAll() {
+        return userDao.selectAll();
     }
 
     @Override
-    public void update(UserDTO userDTO) {
-        User user = new User();
-        BeanUtils.copyProperties(userDTO, user);
-        userDao.update(user);
+    @Transactional
+    public void updateUser(User user) {
+        int i = userDao.update(user);
+        if(i>0){
+            throw new RuntimeException("回滚测试");
+        }
     }
 
     @Override
-    public UserVO getInfo(Integer id) {
-        return null;
+    public void insertUser(User user) {
+        userDao.insert(user);
+    }
+
+    @Override
+    public User getUserById(Integer userId) {
+        return userDao.selectByPrimaryKey(userId);
     }
 
 
