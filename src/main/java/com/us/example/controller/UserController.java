@@ -44,7 +44,8 @@ public class UserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<Object> getUserInfo(@RequestParam() Integer id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        //return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserByIdCache(id), HttpStatus.OK);
     }
 
     /**
@@ -65,7 +66,7 @@ public class UserController {
      * 插入
      * @return
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/insert", method = RequestMethod.PUT, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<Object> insertUser(@RequestParam() String name) {
         User user = new User();

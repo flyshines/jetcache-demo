@@ -24,4 +24,6 @@ public interface UserService {
 
     //@Cached(name = "userCache.", key = "#userId", expire = 3600, cacheType = CacheType.REMOTE)
     User getUserById(Integer userId);
+
+    User getUserByIdCache(Integer userId);
 }

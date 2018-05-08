@@ -20,7 +20,7 @@ public interface UserDao {
 
      @Select(value = "select user_id, name, create_time from user where user_id = #{userId,jdbcType=INTEGER}")
      @Results(value = { @Result(column = "create_time", property = "createTime", jdbcType = JdbcType.TIMESTAMP) ,@Result(column = "user_id", property = "userId", jdbcType = JdbcType.VARCHAR)})
-     @Cached(name = "userCache.", key = "#userId", expire = 3600, cacheType = CacheType.REMOTE)
+     //@Cached(name = "userCache.", key = "#userId", expire = 3600, cacheType = CacheType.REMOTE)
      User selectByPrimaryKey(Integer userId);
 
      @Select(value = "select * from user")

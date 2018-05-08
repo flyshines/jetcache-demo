@@ -1,6 +1,6 @@
 spring:
     datasource:
-      url: jdbc:mysql://172.30.49.44/jetcache?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
+      url: jdbc:mysql://172.30.49.81/jetcache?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT
       username: root
       password: root
       driver-class-name: com.mysql.jdbc.Driver
