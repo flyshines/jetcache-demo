@@ -44,8 +44,8 @@ public class UserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public ResponseEntity<Object> getUserInfo(@RequestParam() Integer id) {
-        //return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
-        return new ResponseEntity<>(userService.getUserByIdCache(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        //return new ResponseEntity<>(userService.getUserByIdCache(id), HttpStatus.OK);
     }
 
     /**

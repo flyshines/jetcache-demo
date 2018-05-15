@@ -59,6 +59,7 @@ public class JetCacheConfig {
         globalCacheConfig.setConfigProvider(configProvider);
         globalCacheConfig.setLocalCacheBuilders(localBuilders);
         globalCacheConfig.setRemoteCacheBuilders(remoteBuilders);
+        //日志输出统计信息
         globalCacheConfig.setStatIntervalMinutes(15);
         globalCacheConfig.setAreaInCacheName(false);
 

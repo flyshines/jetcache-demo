@@ -2,7 +2,10 @@ package com.us.example.service.impl;
 
 
 import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.RefreshPolicy;
+import com.alicp.jetcache.anno.CacheType;
 import com.alicp.jetcache.anno.CreateCache;
+import com.alicp.jetcache.embedded.LinkedHashMapCacheBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.us.example.model.bean.User;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Administrator
@@ -22,11 +26,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @CreateCache(expire = 100)
+    @CreateCache(expire = 100,cacheType = CacheType.LOCAL)
     private Cache<Integer, User> userCache;
 
+    // 自动刷新
+    RefreshPolicy policy = RefreshPolicy.newPolicy(1, TimeUnit.MINUTES)
+            .stopRefreshAfterLastAccess(30, TimeUnit.MINUTES);
+
+    Cache<Integer, User> orderSumCache = LinkedHashMapCacheBuilder.createLinkedHashMapCacheBuilder()
+            .loader(this::loadUserFromDatabase)
+            .refreshPolicy(policy)
+            .buildCache();
+
     @PostConstruct
-    public void init(){
+    public void init() {
         userCache.config().setLoader(this::loadUserFromDatabase);
     }
 
@@ -43,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(User user) {
         int i = userDao.update(user);
-        if(i>0){
+        if (i > 0) {
             throw new RuntimeException("回滚测试");
         }
     }
